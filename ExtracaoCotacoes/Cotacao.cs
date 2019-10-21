@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ExtracaoCotacoes
+﻿namespace ExtracaoCotacoes
 {
     public class Cotacao
     {

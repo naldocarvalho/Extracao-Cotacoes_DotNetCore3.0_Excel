@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace ExtracaoCotacoes
 {
@@ -14,13 +14,13 @@ namespace ExtracaoCotacoes
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"appsettings.json");
+
             var configuration = builder.Build();
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("pt-BR");
 
-            Console.WriteLine("Imagem do site de testes no Docker Hub: " +
-                "renatogroffe/site-indicadores-economia-nginx");
+            Console.WriteLine("Imagem do site de testes no Docker Hub: " + "renatogroffe/site-indicadores-economia-nginx");
             Console.WriteLine("Iniciando a extração das cotações...");
 
             DateTime dataHoraExtracao = DateTime.Now;

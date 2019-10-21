@@ -1,20 +1,15 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using ClosedXML.Excel;
 
 namespace ExtracaoCotacoes
 {
     public static class ArquivoExcelCotacoes
     {
-        public static string GerarArquivo(
-            ExcelConfigurations configurations,
-            DateTime dataHoraExtracao,
-            List<Cotacao> cotacoes)
+        public static string GerarArquivo(ExcelConfigurations configurations, DateTime dataHoraExtracao, List<Cotacao> cotacoes)
         {
-            string caminhoArqCotacoes =
-                configurations.DiretorioGeracaoArqCotacoes +
-                $"Cotacoes {DateTime.Now.ToString("yyyy-MM-dd HH_mm_ss")}.xlsx";
+            string caminhoArqCotacoes = configurations.DiretorioGeracaoArqCotacoes + $"Cotacoes {DateTime.Now.ToString("yyyy-MM-dd HH_mm_ss")}.xlsx";
             File.Copy(configurations.TemplateArqCotacoes, caminhoArqCotacoes);
 
             using (var workbook = new XLWorkbook(caminhoArqCotacoes))
@@ -24,13 +19,10 @@ namespace ExtracaoCotacoes
                 for (int i = 0; i < cotacoes.Count; i++)
                 {
                     var cotacao = cotacoes[i];
-                    worksheet.Cell("A" + (4 + i)).Value =
-                        cotacao.NomeMoeda;
-                    worksheet.Cell("B" + (4 + i)).Value =
-                        cotacao.ValorReais;
+                    worksheet.Cell("A" + (4 + i)).Value = cotacao.NomeMoeda;
+                    worksheet.Cell("B" + (4 + i)).Value = cotacao.ValorReais;
                 }
                 worksheet.Cell("B9").Value = dataHoraExtracao;
-
                 workbook.Save();
             }
 

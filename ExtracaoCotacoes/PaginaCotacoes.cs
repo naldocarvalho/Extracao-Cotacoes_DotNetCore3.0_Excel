@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
+using System.Collections.Generic;
 
 namespace ExtracaoCotacoes
 {
@@ -18,17 +17,13 @@ namespace ExtracaoCotacoes
             ChromeOptions optionsFF = new ChromeOptions();
             optionsFF.AddArgument("--headless");
 
-            _driver = new ChromeDriver(
-                _configurations.CaminhoDriverChrome
-                , optionsFF);
+            _driver = new ChromeDriver(_configurations.CaminhoDriverChrome, optionsFF);
         }
 
         public void CarregarPagina()
         {
-            _driver.Manage().Timeouts().PageLoad =
-                TimeSpan.FromSeconds(60);
-            _driver.Navigate().GoToUrl(
-                _configurations.UrlPaginaCotacoes);
+            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
+            _driver.Navigate().GoToUrl(_configurations.UrlPaginaCotacoes);
         }
 
         public List<Cotacao> ObterCotacoes()
@@ -40,17 +35,16 @@ namespace ExtracaoCotacoes
                 .FindElement(By.Id("tableCotacoes"))
                 .FindElement(By.TagName("tbody"))
                 .FindElements(By.TagName("tr"));
+
             foreach (var rowCotacao in rowsCotacoes)
             {   
-                var dadosCotacao = rowCotacao.FindElements(
-                    By.TagName("td"));
+                var dadosCotacao = rowCotacao.FindElements(By.TagName("td"));
 
                 Cotacao cotacao = new Cotacao();
                 cotacao.Codigo = dadosCotacao[0].Text;
                 cotacao.NomeMoeda = dadosCotacao[1].Text;
                 cotacao.Variacao = dadosCotacao[2].Text;
-                cotacao.ValorReais = Convert.ToDouble(
-                    dadosCotacao[3].Text);
+                cotacao.ValorReais = Convert.ToDouble(dadosCotacao[3].Text);
 
                 cotacoes.Add(cotacao);
             }
